@@ -1,0 +1,29 @@
+name: 'Build'
+on:
+  workflow_call:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 14, 16 ]
+    name: Build Node v${{ matrix.node }} - ${{ matrix.dir }}:service
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm'
+
+      - name: NPM build
+        run: |
+          npm install
+          npm run build

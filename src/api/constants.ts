@@ -311,18 +311,6 @@ agent:
             - $ref: /dbConnection
 `
 
-export const ISSUER_ID = _ISSUER_ID
-
-export const ISSUER_ID_PRIVATE_KEY_HEX = _ISSUER_ID_PRIVATE_KEY_HEX
-
-export const ISSUER_ID_PUBLIC_KEY_HEX = _ISSUER_ID_PUBLIC_KEY_HEX
-
-export const ISSUER_ID_KID = _ISSUER_ID_KID
-
-export const ISSUER_ID_METHOD_SPECIFIC_ID = _ISSUER_ID_METHOD_SPECIFIC_ID
-
-export const ISSUER_ID_METHOD = _ISSUER_ID_METHOD
-
 export const VC_CONTEXT = ['https://www.w3.org/2018/credentials/v1', 'https://veramo.io/contexts/profile/v1']
 
 export const VC_TYPE = 'VerifiableCredential'
@@ -335,11 +323,3 @@ export const VC_REMOVE_ORIGINAL_FIELDS = false
 export const PROPOSAL_MESSAGE_TITLE = 'AuthRequest'
 
 export const REPLY_PROTECTION_INTERVAL = 30
-
-// Twitter Auth
-
-export const TWITTER_CONSUMER_KEY = _TWITTER_CONSUMER_KEY
-
-export const TWITTER_CONSUMER_SECRET = _TWITTER_CONSUMER_SECRET
-
-export const TWITTER_STATE_CSRF = _TWITTER_STATE_CSRF

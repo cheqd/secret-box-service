@@ -8,16 +8,6 @@ defaults:
 
 jobs:
 
-  sh-euox-pipefail-check:
-    name: "Shell pipefail check"
-    runs-on: ubuntu-latest
-    
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Run 'set -euox pipefail' check
-        run: bash ./.github/scripts/ensure_set_euox_pipefail.sh
-  
   md-link-check:
     name: "Broken Markdown links"
     runs-on: ubuntu-latest
@@ -52,15 +42,11 @@ jobs:
         VALIDATE_ALL_CODEBASE: true
         MULTI_STATUS: true
 
-        VALIDATE_BASH: true
         VALIDATE_DOCKERFILE_HADOLINT: true
         VALIDATE_GITHUB_ACTIONS: true
         VALIDATE_JAVASCRIPT_ES: true
         VALIDATE_JSONC: true
         VALIDATE_MARKDOWN: true
-        VALIDATE_OPENAPI: true
-        VALIDATE_PYTHON_PYLINT: true
-        VALIDATE_TERRAGRUNT: true
         VALIDATE_TSX: true
         VALIDATE_TYPESCRIPT_ES: true
         VALIDATE_XML: true

@@ -25,6 +25,7 @@ jobs:
 
   call-deploy:
     name: "Deploy"
+    needs: call-build
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
 

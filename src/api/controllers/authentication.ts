@@ -6,7 +6,7 @@ import { SignMode, Doc, Fee } from '../types'
 import { serializeSignDoc } from '@cosmjs/amino'
 import Long from 'long'
 
-import { HEADERS, PROPOSAL_MESSAGE_TITLE as TITLE, REPLY_PROTECTION_INTERVAL, TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_STATE_CSRF } from '../constants'
+import { PROPOSAL_MESSAGE_TITLE as TITLE, REPLY_PROTECTION_INTERVAL } from '../constants'
 
 export const handleAuthRequest = async (request: Request): Promise<Response> => {
   console.log('Request', JSON.stringify(request));

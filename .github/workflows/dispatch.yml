@@ -11,17 +11,22 @@ jobs:
     name: "Lint"
     uses: ./.github/workflows/lint.yml
 
-  # call-build:
-  #   name: "Build"
-  #   needs: call-lint
-  #   uses: ./.github/workflows/build.yml
-  
+  call-build:
+    name: "Build"
+    needs: call-lint
+    uses: ./.github/workflows/build.yml
+
   # call-test:
   #   name: "Test"
   #   needs: call-build
   #   uses: ./.github/workflows/test.yml
   #   with:
   #     VERSION: ${{ needs.call-build.outputs.VERSION }}
+
+  call-deploy:
+    name: "Deploy"
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit
 
   # call-release:
   #   name: "Release"

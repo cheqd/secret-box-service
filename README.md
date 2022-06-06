@@ -1,3 +1,3 @@
-# .github
+# ʕ •́؈•̀) `worker-typescript-template`
 
-Default community health files for cheqd repositories
+A batteries included template for kick starting a TypeScript Cloudflare worker project.

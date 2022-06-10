@@ -1,5 +1,5 @@
 import { handleAuthToken } from "./authentication";
-import { CORS_HEADERS, HEADERS } from "../constants";
+import { HEADERS } from "../constants";
 
 
 export class CryptoBox {

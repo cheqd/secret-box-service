@@ -84,7 +84,7 @@ route = { pattern = "secret-box-staging.cheqd.io/*", zone_id = "afe3b66243382f27
 # Details: https://developers.cloudflare.com/workers/learning/how-kv-works
 # @default `[]`
 kv_namespaces = [
-	{ binding = "CREDENTIALS", preview_id = "08f012b41df44fd3b6849100d02b7cba", id = "08f012b41df44fd3b6849100d02b7cba" }
+	{ binding = "CREDENTIALS", preview_id = "82eb8b0a55244170b817d3f5656bea56", id = "82eb8b0a55244170b817d3f5656bea56" }
 ]
 
 

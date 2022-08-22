@@ -1,13 +1,34 @@
-import { decodePubkey, decodeTxRaw, DecodedTxRaw, EncodeObject } from '@cosmjs/proto-signing'
+import {
+	decodePubkey,
+	decodeTxRaw,
+	DecodedTxRaw,
+	EncodeObject,
+	DirectSecp256k1HdWallet,
+	DirectSecp256k1Wallet,
+	AccountData,
+	makeSignBytes,
+} from '@cosmjs/proto-signing'
 import { fromBase64 } from '@cosmjs/encoding'
-// import { LumAminoRegistry, LumRegistry } from '../helpers/registry'
-import { LumAminoRegistry, LumRegistry } from '@lum-network/sdk-javascript'
+import { SignDoc, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { Tendermint34Client } from "@cosmjs/tendermint-rpc"
+import { LumAminoRegistry, LumRegistry } from '../helpers/registry'
 import { generateSignDoc, generateSignDocBytes, verifySignature } from '../helpers/utils'
 import { SignMode, Doc, Fee } from '../types'
-import { serializeSignDoc } from '@cosmjs/amino'
+import { AminoMsg, makeSignDoc, serializeSignDoc, StdFee, OfflineAminoSigner, Secp256k1HdWallet, encodeSecp256k1Pubkey } from '@cosmjs/amino'
 import Long from 'long'
 
 import { PROPOSAL_MESSAGE_TITLE as TITLE, REPLY_PROTECTION_INTERVAL } from '../constants'
+import {
+	Account,
+	accountFromAny,
+	AminoTypes,
+	createBankAminoConverters,
+	QueryClient,
+	setupAuthExtension,
+	setupTxExtension,
+	SignerData,
+	SigningStargateClient,
+} from '@cosmjs/stargate';
 
 export const handleAuthRequest = async (request: Request): Promise<Response> => {
 	console.log('Request', JSON.stringify(request));
@@ -168,4 +189,66 @@ function makeResponse(result: string): Response {
 			},
 		}
 	)
+}
+
+export async function signAminoTransaction(
+	mnemonic: string,
+	msgs: EncodeObject[],
+	fee: StdFee,
+	chainId: string,
+	memo: string,
+) {
+	const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic, {
+		prefix: "cheqd",
+	})
+
+	const aminoTypes = new AminoTypes(createBankAminoConverters());
+	const [account] = await wallet.getAccounts()
+
+	const baseAccount = await getAccountInfo(account)
+
+	console.log('account: ', account)
+	console.log('msg to encode: ', msgs)
+
+	const offlinesigner = await SigningStargateClient.offline(wallet, {
+		prefix: "cheqd",
+	})
+
+	const onlineSigner = await SigningStargateClient.connectWithSigner("https://rpc.cheqd.net", wallet, {
+		prefix: "cheqd",
+	})
+	const rawTx = await offlinesigner.sign(account.address, msgs, fee, memo, {
+		sequence: baseAccount.sequence,
+		accountNumber: baseAccount.accountNumber,
+		chainId: chainId,
+	})
+
+	const signDoc: SignDoc = {
+		accountNumber: Long.fromNumber(baseAccount.accountNumber),
+		authInfoBytes: rawTx.authInfoBytes,
+		bodyBytes: rawTx.bodyBytes,
+		chainId: chainId,
+	}
+	const signBz = makeSignBytes(signDoc)
+	console.log('signBz: ', rawTx.signatures[0])
+	const isVerified = await verifySignature(rawTx.signatures[0], signBz, account.pubkey)
+
+
+	const resp = await onlineSigner.broadcastTx(TxRaw.encode(rawTx).finish())
+
+	console.log('rawTx: ', isVerified, resp)
+
+	return resp;
+}
+
+export async function getAccountInfo(account: AccountData): Promise<Account> {
+	const tmClient = await Tendermint34Client.connect("https://rpc.cheqd.net")
+	const qClient = QueryClient.withExtensions(tmClient)
+	const authQClient = setupAuthExtension(qClient)
+	const baseAccount = await authQClient.auth.account(account.address)
+	if (!baseAccount) {
+		throw new Error("account not found on chain")
+	}
+
+	return accountFromAny(baseAccount)
 }

@@ -6,7 +6,12 @@ import { LumRegistry } from './registry'
 import { AuthInfo } from './tx'
 import { publicKeyToProto } from './keys'
 import { Doc, SignMode, SignDoc, DocSigner, Fee } from '../types'
-import { verify } from 'tiny-secp256k1';
+
+//*********************************************************************************
+//*********************************************************************************
+// TODO: Remove & replace functionality, but *verifySignature()* @Jasdeep.
+//*********************************************************************************
+//*********************************************************************************
 
 /**
  * Generate transaction auth info payload
@@ -76,9 +81,6 @@ export const generateSignDocBytes = (signDoc: SignDoc): Uint8Array => {
  * @param publicKey public key of the signing key pair (secp256k1)
  */
 export const verifySignature = async (signature: Uint8Array, signedBytes: Uint8Array, publicKey: Uint8Array): Promise<boolean> => {
-	// const valid = await Secp256k1.verifySignature(Secp256k1Signature.fromFixedLength(signature), sha256(signedBytes), publicKey);
-	// return valid;
-	//
-	const valid = verify(sha256(signedBytes), publicKey, signature)
-	return valid;
+	const valid = await Secp256k1.verifySignature(Secp256k1Signature.fromFixedLength(signature), sha256(signedBytes), publicKey)
+	return valid
 };

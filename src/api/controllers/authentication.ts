@@ -3,18 +3,15 @@ import {
 	decodeTxRaw,
 	DecodedTxRaw,
 	EncodeObject,
-	DirectSecp256k1HdWallet,
-	DirectSecp256k1Wallet,
 	AccountData,
 	makeSignBytes,
 } from '@cosmjs/proto-signing'
 import { fromBase64 } from '@cosmjs/encoding'
-import { SignDoc, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc"
 import { LumAminoRegistry, LumRegistry } from '../helpers/registry'
-import { generateSignDoc, generateSignDocBytes, verifySignature } from '../helpers/utils'
+import { generateSignDoc, verifySignature } from '../helpers/utils'
 import { SignMode, Doc, Fee } from '../types'
-import { AminoMsg, makeSignDoc, serializeSignDoc, StdFee, OfflineAminoSigner, Secp256k1HdWallet, encodeSecp256k1Pubkey } from '@cosmjs/amino'
+import { makeSignDoc, serializeSignDoc, StdFee, Secp256k1HdWallet, AminoSignResponse } from '@cosmjs/amino'
 import Long from 'long'
 
 import { PROPOSAL_MESSAGE_TITLE as TITLE, REPLY_PROTECTION_INTERVAL } from '../constants'
@@ -25,9 +22,6 @@ import {
 	createBankAminoConverters,
 	QueryClient,
 	setupAuthExtension,
-	setupTxExtension,
-	SignerData,
-	SigningStargateClient,
 } from '@cosmjs/stargate';
 
 export const handleAuthRequest = async (request: Request): Promise<Response> => {
@@ -89,7 +83,7 @@ export const handleAuthToken = async (token: string): Promise<boolean> => {
 			bodyBytes: signDoc.bodyBytes,
 			chainId: signDoc.chainId,
 		};
-		const signed_bytes = generateSignDocBytes(sortedJSON);
+		const signed_bytes = makeSignBytes(sortedJSON);
 		ok = await verifySignature(signature, signed_bytes, raw_pubkey);
 	} else if (signMode === SignMode.SIGN_MODE_LEGACY_AMINO_JSON) {
 		const amino_doc_bytes = serializeSignDoc({
@@ -106,7 +100,7 @@ export const handleAuthToken = async (token: string): Promise<boolean> => {
 	return ok
 };
 
-// Utils
+// TODO: Fix this & restore to working condition @Jasdeep.
 
 function checkMsg(decoded: DecodedTxRaw): boolean {
 	const message = LumRegistry.decode(decoded.body.messages[0]);
@@ -119,6 +113,10 @@ function checkMsg(decoded: DecodedTxRaw): boolean {
 	return Date.now() - Date.parse(description.time) <= REPLY_PROTECTION_INTERVAL;
 
 }
+
+//*******************************************************************************************
+// TODO: Deprecated. Remove after e2e tests with FE @Jasdeep.
+//*******************************************************************************************
 
 function getPubkey(decoded: DecodedTxRaw): Uint8Array | null {
 	const pubkey = decodePubkey(decoded.authInfo.signerInfos[0].publicKey);
@@ -191,58 +189,35 @@ function makeResponse(result: string): Response {
 	)
 }
 
+//***************************************************************************************
+
 export async function signAminoTransaction(
 	mnemonic: string,
 	msgs: EncodeObject[],
 	fee: StdFee,
 	chainId: string,
 	memo: string,
-) {
+): Promise<AminoSignResponse> {
 	const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic, {
 		prefix: "cheqd",
 	})
 
 	const aminoTypes = new AminoTypes(createBankAminoConverters());
 	const [account] = await wallet.getAccounts()
-
 	const baseAccount = await getAccountInfo(account)
-
-	console.log('account: ', account)
-	console.log('msg to encode: ', msgs)
-
-	const offlinesigner = await SigningStargateClient.offline(wallet, {
-		prefix: "cheqd",
-	})
-
-	const onlineSigner = await SigningStargateClient.connectWithSigner("https://rpc.cheqd.net", wallet, {
-		prefix: "cheqd",
-	})
-	const rawTx = await offlinesigner.sign(account.address, msgs, fee, memo, {
-		sequence: baseAccount.sequence,
-		accountNumber: baseAccount.accountNumber,
-		chainId: chainId,
-	})
-
-	const signDoc: SignDoc = {
-		accountNumber: Long.fromNumber(baseAccount.accountNumber),
-		authInfoBytes: rawTx.authInfoBytes,
-		bodyBytes: rawTx.bodyBytes,
-		chainId: chainId,
-	}
-	const signBz = makeSignBytes(signDoc)
-	console.log('signBz: ', rawTx.signatures[0])
-	const isVerified = await verifySignature(rawTx.signatures[0], signBz, account.pubkey)
-
-
-	const resp = await onlineSigner.broadcastTx(TxRaw.encode(rawTx).finish())
-
-	console.log('rawTx: ', isVerified, resp)
-
-	return resp;
+	const signDocAmino = makeSignDoc(
+		msgs.map(msg => aminoTypes.toAmino(msg)),
+		fee,
+		chainId,
+		memo,
+		baseAccount.accountNumber.toString(),
+		baseAccount.sequence.toString()
+	)
+	return await wallet.signAmino(account.address, signDocAmino)
 }
 
 export async function getAccountInfo(account: AccountData): Promise<Account> {
-	const tmClient = await Tendermint34Client.connect("https://rpc.cheqd.net")
+	const tmClient = await Tendermint34Client.connect("https://rpc.cheqd.network")
 	const qClient = QueryClient.withExtensions(tmClient)
 	const authQClient = setupAuthExtension(qClient)
 	const baseAccount = await authQClient.auth.account(account.address)

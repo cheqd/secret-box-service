@@ -1,5 +1,7 @@
 ### APP-SPECIFIC EXCLUSIONS ###
 transpiled
+cred.json
+stats.json
 
 ### GENERAL EXCLUSIONS ###
 

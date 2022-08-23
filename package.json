@@ -1,7 +1,14 @@
 {
-  "name": "worker-typescript-template",
+  "name": "secret",
   "version": "1.0.0",
-  "description": "Cloudflare worker TypeScript template",
+  "license": "Apache-2.0",
+  "source": "src/index.ts",
+  "author": "Cheqd Foundation Limited (https://github.com/cheqd)",
+  "repository": "https://github.com/cheqd/secret-box-service.git",
+  "bugs": {
+    "url": "https://github.com/cheqd/secret-box-service/issues"
+  },
+  "homepage": "https://github.com/cheqd/secret-box-service#readme",
   "main": "dist/worker.js",
   "type": "module",
   "scripts": {
@@ -12,8 +19,6 @@
     "test": "jest --config jestconfig.json --verbose",
     "analyze": "webpack --json > stats.json && webpack-bundle-analyzer stats.json"
   },
-  "author": "author",
-  "license": "MIT OR Apache-2.0",
   "eslintConfig": {
     "root": true,
     "extends": [

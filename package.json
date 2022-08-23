@@ -1,5 +1,5 @@
 {
-  "name": "secret",
+  "name": "@cheqd/secret-box-service",
   "version": "1.0.0",
   "license": "Apache-2.0",
   "source": "src/index.ts",
@@ -62,5 +62,9 @@
     "process": "^0.11.10",
     "stream-browserify": "3.0.0",
     "util": "^0.12.4"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }

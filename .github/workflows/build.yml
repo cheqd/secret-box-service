@@ -1,7 +1,6 @@
-name: 'Build'
+name: "Build & Test"
 on:
   workflow_call:
-
 defaults:
   run:
     shell: bash
@@ -9,21 +8,23 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [ 14, 16 ]
-    name: Build Node v${{ matrix.node }} - secret-box:service
+    
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
+      
       - uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 16
           cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
 
-      - name: NPM build
+      - name: "Execute build"
         run: |
-          npm install
+          npm ci
           npm run build
+      
+      # Temporarily disabling tests until the workflow setup is sorted. Please reactivate when ready.
+      # - name: "Execute tests"
+      #   run: npm test

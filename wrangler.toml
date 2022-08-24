@@ -27,7 +27,7 @@ usage_model = "bundled"
 workers_dev = true
 
 # Route to publish the Worker
-route = { pattern = "secret-box.cheqd.io/*", zone_id = "afe3b66243382f27140e6feeaae848b5" }
+route = { pattern = "secret-box.cheqd.net/*", zone_id = "88e06eefedbbd140a12ac3dd1b21a7af" }
 
 # KV Namespaces accessible from the Worker
 # Details: https://developers.cloudflare.com/workers/learning/how-kv-works
@@ -71,7 +71,7 @@ name = "secret-box-staging"
 workers_dev = true
 
 # Route to publish the Worker
-route = { pattern = "secret-box-staging.cheqd.io/*", zone_id = "afe3b66243382f27140e6feeaae848b5" }
+route = { pattern = "secret-box-staging.cheqd.net/*", zone_id = "88e06eefedbbd140a12ac3dd1b21a7af" }
 
 # Map of environment variables to set when deploying the Worker
 # Not inherited. @default `{}`

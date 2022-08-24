@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: staging
-      url: https://secret-box-staging.cheqd.io/
+      url: https://secret-box-staging.cheqd.net/
 
     steps:
       - uses: actions/checkout@v3
@@ -41,7 +41,7 @@ jobs:
       security-events: write
     environment:
       name: production
-      url: https://secret-box.cheqd.io/
+      url: https://secret-box.cheqd.net/
 
     steps:
       - uses: actions/checkout@v3

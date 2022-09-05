@@ -111,7 +111,7 @@ kv_namespaces = [
 # DATA = ""
 
 # Minify before uploading?
-# minify = "false"
+minify = "false"
 
 # Add polyfills for node builtin modules and globals?
 node_compat = true

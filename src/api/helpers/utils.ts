@@ -1,47 +1,4 @@
 import { Secp256k1, Secp256k1Signature, sha256 } from '@cosmjs/crypto'
-import { makeAuthInfoBytes } from '@cosmjs/proto-signing'
-import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing'
-import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
-import Long from 'long'
-import { Doc } from '../types'
-import { publicKeyToProto } from './keys'
-import { CheqdRegistry } from './registry'
-
-/**
- * Generate transaction doc to be signed
- *
- * @param doc document to create the sign version
- * @param signerIdx index of the signer in the signers field used to specify the accountNumber for signature purpose
- * @param signMode signing mode for the transaction
- */
-export const generateSignDoc = (doc: Doc, signerIdx: number, signMode: SignMode): SignDoc => {
-	if (signerIdx < 0 || signerIdx > doc.signers.length) {
-		throw new Error('Invalid doc signer index');
-	}
-
-	const txBody = {
-		messages: doc.messages,
-		memo: doc.memo,
-	};
-	const bodyBytes = CheqdRegistry.encode({
-		typeUrl: '/cosmos.tx.v1beta1.TxBody',
-		value: txBody,
-	});
-
-	const signers = doc.signers.map(signer => {
-		return {
-			sequence: signer.sequence,
-			pubkey: publicKeyToProto(signer.pubkey)
-		}
-	})
-
-	return {
-		bodyBytes,
-		authInfoBytes: makeAuthInfoBytes(signers, doc.fee!.amount, signMode),
-		chainId: doc.chainId,
-		accountNumber: Long.fromNumber(doc.signers[signerIdx].accountNumber),
-	};
-};
 
 /**
  * Verify that a signature is valid

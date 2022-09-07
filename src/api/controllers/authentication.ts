@@ -99,7 +99,7 @@ export const handleAuthToken = async (token: string): Promise<Response | void> =
 
 			break;
 		default:
-			ErrorHandler.throw({ msg: AuthTokenErrorEnum.NoSignMode, statusCode: 400 })
+			return ErrorHandler.throw({ msg: AuthTokenErrorEnum.NoSignMode, statusCode: 400 })
 	}
 };
 

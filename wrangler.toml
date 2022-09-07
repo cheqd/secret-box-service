@@ -18,6 +18,12 @@ compatibility_date = "2022-05-24"
 usage_model = "bundled"
 
 
+# Minify before uploading?
+minify = false
+
+# Add polyfills for node builtin modules and globals?
+node_compat = true
+
 ###############################################################
 ###            SECTION 2: Production Environment            ###
 ###############################################################
@@ -109,9 +115,3 @@ kv_namespaces = [
 # do proper module imports.
 #[data_blobs]
 # DATA = ""
-
-# Minify before uploading?
-minify = "false"
-
-# Add polyfills for node builtin modules and globals?
-node_compat = true

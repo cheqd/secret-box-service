@@ -1,15 +1,13 @@
 export const HEADERS = {
-    json: { 'Content-Type': 'application/json' },
-    text: { 'Content-Type': 'text/plain' },
+	json: { 'Content-Type': 'application/json' },
+	text: { 'Content-Type': 'text/plain' },
 }
 
-export const CORS_HEADERS = {
-    [Symbol.iterator]: function*(): Record<any, any>{
-      yield { 'Access-Control-Allow-Origin': '*' }
-      yield { 'Access-Control-Allow-Methods': 'GET,OPTIONS' }
-      yield { 'Access-Control-Max-Age': '86400' }
-    }
-}
+export const CORS_HEADERS: Iterable<[string, string]> = [
+	['Access-Control-Allow-Origin', '*'],
+	['Access-Control-Allow-Methods', 'GET,OPTIONS'],
+	['Access-Control-Max-Age', '86400']
+]
 
 export const DEFAULT_CONFIG = `
 version: 3.0
@@ -322,4 +320,5 @@ export const VC_REMOVE_ORIGINAL_FIELDS = false
 // Auth
 export const PROPOSAL_MESSAGE_TITLE = 'AuthRequest'
 
-export const REPLY_PROTECTION_INTERVAL = 30
+// since date in javascript is always millisecond
+export const REPLY_PROTECTION_INTERVAL = 15 * 1000

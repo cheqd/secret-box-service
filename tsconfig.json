@@ -16,6 +16,6 @@
       "@types/service-worker-mock"
     ]
   },
-  "include": ["src", "test"],
+  "include": ["src", "tests"],
   "exclude": ["node_modules", "dist"]
 }

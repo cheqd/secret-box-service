@@ -1,97 +1,79 @@
-import { handleAuthToken } from "./authentication";
+import { ErrorHandler } from "../../error_handler";
 import { HEADERS } from "../constants";
-
+import { handleAuthToken } from "./authentication";
 
 export class CryptoBox {
-    storage: KVNamespace
+	storage: KVNamespace
 
-    constructor() {
-        this.storage = CREDENTIALS
-    }
+	constructor() {
+		this.storage = CREDENTIALS
+	}
 
-    async handleGetCryptoBox(request: Request): Promise<Response> {
-        const url = new URL(request.url);
-        const accountId = url.pathname.split('/').pop() || "";
+	async getCryptoBox(request: Request): Promise<Response> {
+		const url = new URL(request.url);
+		const accountId = url.pathname.split('/').pop() || "";
 
-        // const token = url.searchParams.get('authToken'
-        const token = request.headers.get("Authorization")
-        if (token === null) {
-            return new Response("Token is not placed in headers", {status: 500})
-        }
+		const token = request.headers.get("Authorization")
+		if (!token) {
+			return ErrorHandler.throw({ msg: "Token is not placed in headers", statusCode: 400 })
+		}
 
-        const isAllowed = await handleAuthToken(token)
-        if (!isAllowed) {
-            return new Response("Auth token is not valid.", {status: 500})
-        }
+		// err is of Response kind as well
+		const err = await handleAuthToken(token)
+		if (err) {
+			return err
+		}
 
-        return await this.GetFromKVStore(accountId)
-    }
-    
-    async GetFromKVStore(accountId: string): Promise<Response> {
-    
-        const value = await this.storage.get(accountId)
-        if (value === null) {
-            return new Response(
-                "Value not found",
-                {
-                    status: 404,
-                    headers: {
-                        ...HEADERS.text
-                    }
-                }
-                )
-        }
-        const parsed_value = JSON.parse(value)
-        const resp_value = {
-            cryptoBox: parsed_value
-        }
-        return new Response(
-            JSON.stringify(resp_value),{
-                headers: {
-                    'content-type': 'application/json;charset=UTF-8',
-            },
-        })
-    }
+		return await this.getFromKVStore(accountId)
+	}
 
-    async authenticated(token: string): Promise<boolean> {
-        return await handleAuthToken(token)
-    }
+	async getFromKVStore(accountId: string): Promise<Response> {
+		const value = await this.storage.get(accountId)
+		if (!value) {
+			return ErrorHandler.throw({ msg: "value not found", statusCode: 400, headers: HEADERS.text })
+		}
 
-    async putToKVStore(request: Request) {
-        const cryptoJson = await this.readJSONBody(request)
-        if (cryptoJson === undefined) {
-            return new Response(
-                "Post was rejected because wrong ContentType. JSON is expected",
-                {
-                    status: 500,
-                    headers: {
-                        ...HEADERS.text
-                    }
-                }
-            )
+		return new Response(
+			JSON.stringify({ cryptoBox: JSON.parse(value) }), {
+			headers: {
+				...HEADERS.json,
+			},
+		})
+	}
 
-        }
+	async authenticated(token: string): Promise<boolean> {
+		const err = await handleAuthToken(token)
+		return !!err
+	}
 
-        const isAllowed = await this.authenticated(request.headers.get("Authorization") || '');
-        if (!isAllowed) {
-            return new Response("Auth token is not valid.", {status: 500})
-        }
+	async putToKVStore(request: Request) {
+		const cryptoJson = await this.readJSONBody(request)
+		if (!cryptoJson) {
+			return ErrorHandler.throw({
+				msg: "Post was rejected because wrong ContentType. JSON is expected",
+				statusCode: 500,
+				headers: HEADERS.text
+			})
+		}
 
-        await this.storage.put(cryptoJson["accountID"], JSON.stringify(cryptoJson["cryptoBox"]))
-        return new Response("Value has been stored");
-    }
-    
-    async readJSONBody(request: Request): Promise<any>{
-        const { headers } = request;
-        const contentType = headers.get('content-type') || ''
-        if (contentType.includes('application/json')) {
-            return await request.json();
-        } else {
-            return undefined
-        }
-    }
-    
-    async handlePostKVStore(request: Request): Promise<Response>{
-        return await this.putToKVStore(request)
-    }
+		const isAllowed = await this.authenticated(request.headers.get("Authorization") || '');
+		if (!isAllowed) {
+			return ErrorHandler.throw({ msg: "auth token is not valid.", statusCode: 500 })
+		}
+
+		await this.storage.put(cryptoJson["accountID"], JSON.stringify(cryptoJson["cryptoBox"]))
+		return new Response("Value has been stored", { status: 200 });
+	}
+
+	async readJSONBody(request: Request): Promise<any> {
+		const { headers } = request;
+		const contentType = headers.get('content-type')
+		if (contentType && contentType.includes('application/json')) {
+			return await request.json();
+		}
+	}
+
+	async handlePostKVStore(request: Request): Promise<Response> {
+		return await this.putToKVStore(request)
+	}
 }

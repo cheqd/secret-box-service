@@ -17,7 +17,6 @@ compatibility_date = "2022-05-24"
 # Details: https://developers.cloudflare.com/workers/platform/limits
 usage_model = "bundled"
 
-
 # Minify before uploading?
 minify = false
 
@@ -87,7 +86,7 @@ route = { pattern = "secret-box-staging.cheqd.net/*", zone_id = "88e06eefedbbd14
 # Details: https://developers.cloudflare.com/workers/learning/how-kv-works
 # @default `[]`
 kv_namespaces = [
-	{ binding = "CREDENTIALS", preview_id = "82eb8b0a55244170b817d3f5656bea56", id = "82eb8b0a55244170b817d3f5656bea56" }
+	{ binding = "CREDENTIALS", preview_id = "9abeb647d36148009a0896797775bfbf", id = "9abeb647d36148009a0896797775bfbf" }
 ]
 
 

@@ -17,12 +17,8 @@ compatibility_date = "2022-05-24"
 # Details: https://developers.cloudflare.com/workers/platform/limits
 usage_model = "bundled"
 
-# Minify before uploading?
-minify = false
-
 # Add polyfills for node builtin modules and globals?
 node_compat = true
-
 
 # Minify before uploading?
 minify = false

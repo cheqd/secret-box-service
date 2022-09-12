@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1](https://github.com/cheqd/secret-box-service/compare/1.1.0...1.1.1) (2022-09-12)
+
+
+### Bug Fixes
+
+* Add different KV bindings for Staging ([0273dcd](https://github.com/cheqd/secret-box-service/commit/0273dcd722c672d59070139cf1b93c32740476b7))
+* Add different KV bindings for Staging ([#11](https://github.com/cheqd/secret-box-service/issues/11)) ([de33d54](https://github.com/cheqd/secret-box-service/commit/de33d548b4587d22bd9f14b5c2d0c81c1f7ecff7))
+
 ## [1.1.0](https://github.com/cheqd/secret-box-service/compare/1.0.0...1.1.0) (2022-09-08)
 
 

@@ -1,8 +1,6 @@
 name: "Deploy"
 on:
   workflow_call:
-# concurrency: 
-#   group: ${{ github.workflow }}
 defaults:
   run:
     shell: bash

@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.1.4](https://github.com/cheqd/secret-box-service/compare/1.1.3...1.1.4) (2022-09-22)
+
 ## [1.1.3](https://github.com/cheqd/secret-box-service/compare/1.1.2...1.1.3) (2022-09-22)
 
 

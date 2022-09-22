@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.3](https://github.com/cheqd/secret-box-service/compare/1.1.2...1.1.3) (2022-09-22)
+
+
+### Bug Fixes
+
+* Added SSH debug tool ([01d23ee](https://github.com/cheqd/secret-box-service/commit/01d23ee30c14ccf287167374ed56a0934b9d061e))
+* Remove SSH debug tool ([46ee0e4](https://github.com/cheqd/secret-box-service/commit/46ee0e4a1e338fa3b94487b2673dda8bfbcc60b2))
+
 ## [1.1.2](https://github.com/cheqd/secret-box-service/compare/1.1.1...1.1.2) (2022-09-20)
 
 ## [1.1.1](https://github.com/cheqd/secret-box-service/compare/1.1.0...1.1.1) (2022-09-12)

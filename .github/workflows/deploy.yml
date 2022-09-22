@@ -1,6 +1,8 @@
 name: "Deploy"
 on:
   workflow_call:
+concurrency: 
+  group: ${{ github.workflow }}
 defaults:
   run:
     shell: bash
@@ -41,16 +43,12 @@ jobs:
     needs: staging-deploy
     if: ${{ success() && ( github.ref_name == 'main' ) }}
     runs-on: ubuntu-latest
-    # permissions:
-    #   security-events: write # Lets reassess this later
     environment:
       name: production
       url: https://secret-box.cheqd.net/
 
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
       
       - uses: actions/setup-node@v3
         with:

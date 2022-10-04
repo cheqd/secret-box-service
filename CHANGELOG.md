@@ -32,7 +32,6 @@
 
 ## [1.1.1](https://github.com/cheqd/secret-box-service/compare/1.1.0...1.1.1) (2022-09-12)
 
-
 ### Bug Fixes
 
 * Add different KV bindings for Staging ([0273dcd](https://github.com/cheqd/secret-box-service/commit/0273dcd722c672d59070139cf1b93c32740476b7))
@@ -40,11 +39,9 @@
 
 ## [1.1.0](https://github.com/cheqd/secret-box-service/compare/1.0.0...1.1.0) (2022-09-08)
 
-
 ### Features
 
 * **signatures:** Fixed `signAmino` & replaced lum deps ([36fd1b8](https://github.com/cheqd/secret-box-service/commit/36fd1b81b7ad20bbd36375b59d87a79b4cf5a927))
-
 
 ### Bug Fixes
 
@@ -56,3 +53,5 @@
 * Wrangler config file ([ba30170](https://github.com/cheqd/secret-box-service/commit/ba30170f010c99eb7baf8381074dde90d7be5b59))
 
 ## 1.0.0 (2022-08-24)
+
+First release

@@ -73,7 +73,7 @@
     "@cosmjs/math": "^0.29.0",
     "@cosmjs/tendermint-rpc": "^0.28.4",
     "cosmjs-types": "^0.4.0",
-    "itty-router": "^2.6.3",
+    "itty-router": "^2.6.6",
     "long": "^5.2.0"
   },
   "publishConfig": {

@@ -43,9 +43,8 @@ jobs:
   
   production-deploy:
     name: "Production Deploy"
-    needs: staging-deploy
-    if: ${{ github.ref_name == 'main' }}
     runs-on: ubuntu-latest
+    if: ${{ github.ref_name == 'main' }}
     environment:
       name: production
       url: https://secret-box.cheqd.net/

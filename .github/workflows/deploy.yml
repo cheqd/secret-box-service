@@ -8,7 +8,7 @@ defaults:
 jobs:
   
   staging-deploy:
-    name: "Cloudflare - Staging"
+    name: "Staging Deploy"
     runs-on: ubuntu-latest
     environment:
       name: staging
@@ -31,30 +31,3 @@ jobs:
           wranglerVersion: '2.0.27'
           preCommands: npm ci
           command: publish --env staging
-
-  production-deploy:
-    name: "Cloudflare - Production"
-    needs: staging-deploy
-    if: ${{ success() && ( github.ref_name == 'main' ) }}
-    runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: https://secret-box.cheqd.net/
-
-    steps:
-      - uses: actions/checkout@v3
-      
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-
-      - name: Publish to Cloudflare
-        uses: cloudflare/wrangler-action@2.0.0
-        with:
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          wranglerVersion: '2.0.27'
-          preCommands: npm ci
-          command: publish

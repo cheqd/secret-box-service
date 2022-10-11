@@ -37,7 +37,7 @@
     "@types/jest": "^29.1.2",
     "@types/service-worker-mock": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^5.40.0",
-    "@typescript-eslint/parser": "^5.39.0",
+    "@typescript-eslint/parser": "^5.40.0",
     "browserify-fs": "^1.0.0",
     "buffer": "6.0.3",
     "conventional-changelog-conventionalcommits": "^5.0.0",

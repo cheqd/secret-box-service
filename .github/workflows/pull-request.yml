@@ -19,15 +19,45 @@ jobs:
   lint-pr:
     name: "PR format check"
     runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v3
-      # check for the most recent release: https://github.com/CondeNast/conventional-pull-request-action/releases
-      # replace vX.X.X below with the most recently released version
-      - uses: CondeNast/conventional-pull-request-action@v0.1.2
+
+      - uses: amannn/action-semantic-pull-request@v5.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          # to override config-conventional rules, specify a relative path to your rules module, actions/checkout is required for this setting!
-          commitlintRulesPath: "./.github/linters/.commitlint.rules.js" # default: undefined
-          # if the PR contains a single commit, fail if the commit message and the PR title do not match
-          commitTitleMatch: false # default: 'true'
+          # Configure which types are allowed (newline delimited).
+          # Default: https://github.com/commitizen/conventional-commit-types
+          types: |
+            feat
+            fix
+            build
+            chore
+            ci
+            docs
+            feat
+            fix
+            perf
+            refactor
+            revert
+            style
+            test
+          # Configure that a scope must always be provided.
+          requireScope: false
+          # Subject should start with capital letter
+          subjectPattern: (?![A-Z]).+$
+          # If `subjectPattern` is configured, you can use this property to override
+          # the default error message that is shown when the pattern doesn't match.
+          # The variables `subject` and `title` can be used within the message.
+          subjectPatternError: |
+            The subject "{subject}" found in the pull request title "{title}"
+            should begin with a capital letter and include the ClickUp task ID
+            (written as "[DEV-xxx]") at the end."
+          # If you're using a format for the PR title that differs from the traditional Conventional
+          # Commits spec, you can use these options to customize the parsing of the type, scope and
+          # subject. The `headerPattern` should contain a regex where the capturing groups in parentheses
+          # correspond to the parts listed in `headerPatternCorrespondence`.
+          # See: https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-commits-parser#headerpattern
+          headerPattern: '^(\w*)(?:\(([\w$.\-*/ ]*)\))?: (.*)$'
+          headerPatternCorrespondence: type, scope, subject

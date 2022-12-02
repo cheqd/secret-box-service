@@ -3,13 +3,18 @@
 # Directories to exclude from NPM package
 .github/**
 
-# Files to exclude from NPM package
+## Files to exclude from NPM package
+
+# Documentation
+!README.md
+**.md
+
+# Configuration files
 .gitignore
 .npmrc
 .releaserc.json
 buf.gen.yaml
-!README.md
-**.md
+.eslint.*
 jest.config.*
 jestconfig.json
 tsconfig.*

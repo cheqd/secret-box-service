@@ -1,5 +1,5 @@
-export {}
+export {};
 
 declare global {
-    const CREDENTIALS: KVNamespace
+  const CREDENTIALS: KVNamespace;
 }

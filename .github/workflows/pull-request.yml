@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   lint-pr:
-    name: "PR Title check"
+    name: "PR format check"
     runs-on: ubuntu-latest
     
     steps:

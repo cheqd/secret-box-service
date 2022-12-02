@@ -1,13 +1,13 @@
 export const HEADERS = {
-	json: { 'Content-Type': 'application/json' },
-	text: { 'Content-Type': 'text/plain' },
-}
+  json: { "Content-Type": "application/json" },
+  text: { "Content-Type": "text/plain" },
+};
 
 export const CORS_HEADERS: Iterable<[string, string]> = [
-	['Access-Control-Allow-Origin', '*'],
-	['Access-Control-Allow-Methods', 'GET,OPTIONS'],
-	['Access-Control-Max-Age', '86400']
-]
+  ["Access-Control-Allow-Origin", "*"],
+  ["Access-Control-Allow-Methods", "GET,OPTIONS"],
+  ["Access-Control-Max-Age", "86400"],
+];
 
 export const DEFAULT_CONFIG = `
 version: 3.0
@@ -307,18 +307,21 @@ agent:
         - $require: '@veramo/data-store#DataStoreORM'
           $args:
             - $ref: /dbConnection
-`
+`;
 
-export const VC_CONTEXT = ['https://www.w3.org/2018/credentials/v1', 'https://veramo.io/contexts/profile/v1']
+export const VC_CONTEXT = [
+  "https://www.w3.org/2018/credentials/v1",
+  "https://veramo.io/contexts/profile/v1",
+];
 
-export const VC_TYPE = 'VerifiableCredential'
+export const VC_TYPE = "VerifiableCredential";
 
-export const VC_PROOF_FORMAT = 'jwt'
+export const VC_PROOF_FORMAT = "jwt";
 
-export const VC_REMOVE_ORIGINAL_FIELDS = false
+export const VC_REMOVE_ORIGINAL_FIELDS = false;
 
 // Auth
-export const PROPOSAL_MESSAGE_TITLE = 'AuthRequest'
+export const PROPOSAL_MESSAGE_TITLE = "AuthRequest";
 
 // since date in javascript is always millisecond
-export const REPLY_PROTECTION_INTERVAL = 15 * 1000
+export const REPLY_PROTECTION_INTERVAL = 15 * 1000;

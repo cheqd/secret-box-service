@@ -2,6 +2,8 @@
 
 # Directories to exclude from NPM package
 .github/**
+src/**
+tests/**
 
 ## Files to exclude from NPM package
 

@@ -33,7 +33,7 @@
     "@cosmjs/math": "^0.29.4",
     "@cosmjs/proto-signing": "^0.28.13",
     "@cosmjs/stargate": "^0.29.4",
-    "@cosmjs/tendermint-rpc": "^0.29.4",
+    "@cosmjs/tendermint-rpc": "^0.29.5",
     "cosmjs-types": "^0.5.2",
     "itty-router": "^2.6.6",
     "long": "^5.2.1"

@@ -1,4 +1,5 @@
 ### APP-SPECIFIC EXCLUSIONS ###
+.eslintrc.json
 
 # Directories to exclude from NPM package
 .github/**

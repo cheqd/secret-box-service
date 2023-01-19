@@ -1,5 +1,4 @@
 ### APP-SPECIFIC EXCLUSIONS ###
-.eslintrc.json
 
 # Directories to exclude from NPM package
 .github/**
@@ -7,9 +6,9 @@ src/**
 tests/**
 
 ## Files to exclude from NPM package
-
-# Documentation
+.eslintrc.json
 !README.md
+!CHANGELOG.md
 **.md
 
 # Configuration files

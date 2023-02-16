@@ -19,6 +19,13 @@
     "test": "jest --config jestconfig.json --verbose",
     "analyze": "webpack --json > stats.json && webpack-bundle-analyzer stats.json"
   },
+  "files": [
+    "dist/**/*",
+    "LICENSE",
+    "package.json",
+    "README.md",
+    "wrangler.toml"
+  ],
   "eslintConfig": {
     "root": true,
     "extends": [

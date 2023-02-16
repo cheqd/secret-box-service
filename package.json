@@ -55,7 +55,7 @@
     "@semantic-release/release-notes-generator": "^10.0.3",
     "@types/jest": "^29.4.0",
     "@types/service-worker-mock": "^2.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
     "browserify-fs": "^1.0.0",
     "buffer": "^6.0.3",

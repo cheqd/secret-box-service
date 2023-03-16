@@ -28,9 +28,9 @@ async function getAuthToken(request: Request): Promise<string> {
 	return ""
 }
 
-export const handleAuthToken = async (token: string): Promise<Response | void> => {
+export const handleAuthToken = async (token: string, chainId?: string): Promise<Response | void> => {
 	const bz = fromBase64(token)
-	const chainId = 'cheqd-mainnet-1';
+	chainId = chainId || 'cheqd-mainnet-1';
 	const decoded = decodeTxRaw(bz);
 
 	// check is msg title is what we expect and the date in msg is less than 30s old (which is 30000ms in JS/TS world)
@@ -42,7 +42,7 @@ export const handleAuthToken = async (token: string): Promise<Response | void> =
 	// Get the signature from decoded message
 	const signature = decoded.signatures[0];
 	// Get public key
-	const aminoPubkey = decodePubkey(decoded.authInfo.signerInfos[0].publicKey);
+	const aminoPubkey = decodePubkey(decoded.authInfo.signerInfos[0].publicKey!);
 	if (!aminoPubkey) {
 		return ErrorHandler.throw({ msg: AuthTokenErrorEnum.NoPubkey, statusCode: 400 })
 	}
@@ -64,7 +64,7 @@ export const handleAuthToken = async (token: string): Promise<Response | void> =
 			const bodyBytes = CheqdRegistry.encode({ typeUrl: '/cosmos.tx.v1beta1.TxBody', value: txBody });
 			const signDoc = makeSignDoc(
 				bodyBytes,
-				makeAuthInfoBytes([{ sequence: 0, pubkey: publicKeyToProto(pubKey) }], decoded.authInfo.fee!.amount, signMode),
+				makeAuthInfoBytes([{ sequence: 0, pubkey: publicKeyToProto(pubKey) }], decoded.authInfo.fee!.amount, 40000, undefined, undefined, signMode),
 				chainId,
 				0
 			)

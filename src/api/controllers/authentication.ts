@@ -41,10 +41,11 @@ async function getAuthToken(request: Request): Promise<string> {
 }
 
 export const handleAuthToken = async (
-  token: string
+  token: string,
+  chainId?: string,
 ): Promise<Response | void> => {
   const bz = fromBase64(token);
-  const chainId = "cheqd-mainnet-1";
+  chainId = chainId || "cheqd-mainnet-1";
   const decoded = decodeTxRaw(bz);
 
   // check is msg title is what we expect and the date in msg is less than 30s old (which is 30000ms in JS/TS world)
@@ -56,7 +57,7 @@ export const handleAuthToken = async (
   // Get the signature from decoded message
   const signature = decoded.signatures[0];
   // Get public key
-  const aminoPubkey = decodePubkey(decoded.authInfo.signerInfos[0].publicKey);
+  const aminoPubkey = decodePubkey(decoded.authInfo.signerInfos[0].publicKey!);
   if (!aminoPubkey) {
     return ErrorHandler.throw({
       msg: AuthTokenErrorEnum.NoPubkey,
@@ -87,6 +88,9 @@ export const handleAuthToken = async (
         makeAuthInfoBytes(
           [{ sequence: 0, pubkey: publicKeyToProto(pubKey) }],
           decoded.authInfo.fee!.amount,
+          40000,
+          undefined,
+          undefined,
           signMode
         ),
         chainId,

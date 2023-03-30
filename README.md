@@ -12,7 +12,7 @@ The purpose of this [`@cheqd/secret-box-service` NPM package](https://www.npmjs.
 
 ## 📖 Documentation
 
-[Tutorials, advanced configuration, and architecture for cheqd's Veramo plugin](https://docs.cheqd.io/identity/building-decentralized-identity-apps/veramo-sdk-for-cheqd/) can be found on our [Identity Docs site](https://docs.cheqd.io/identity/).
+[Tutorials, advanced configuration, and architecture for cheqd's Veramo plugin](https://docs.cheqd.io/identity/guides/sdk/veramo-sdk-for-cheqd) can be found on our [Identity Docs site](https://docs.cheqd.io/identity/).
 
 ## 💬 Community
 

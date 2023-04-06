@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.1.29-develop.1](https://github.com/cheqd/secret-box-service/compare/1.1.28...1.1.29-develop.1) (2023-04-06)
+
 ## [1.1.28](https://github.com/cheqd/secret-box-service/compare/1.1.27...1.1.28) (2023-03-30)
 
 ## [1.1.28-develop.1](https://github.com/cheqd/secret-box-service/compare/1.1.27...1.1.28-develop.1) (2023-03-16)

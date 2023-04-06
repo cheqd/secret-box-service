@@ -75,7 +75,7 @@
     "service-worker-mock": "^2.0.5",
     "stream-browserify": "^3.0.0",
     "terser-webpack-plugin": "^5.3.7",
-    "ts-jest": "^29.0.5",
+    "ts-jest": "^29.1.0",
     "ts-loader": "^9.4.2",
     "typescript": "^4.9.5",
     "util": "^0.12.5",

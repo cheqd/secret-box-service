@@ -2,6 +2,8 @@
 
 ## [1.1.30](https://github.com/cheqd/secret-box-service/compare/1.1.29...1.1.30) (2023-05-30)
 
+## [1.1.30-develop.2](https://github.com/cheqd/secret-box-service/compare/1.1.30-develop.1...1.1.30-develop.2) (2023-07-04)
+
 ## [1.1.30-develop.1](https://github.com/cheqd/secret-box-service/compare/1.1.29...1.1.30-develop.1) (2023-05-30)
 
 ## [1.1.29](https://github.com/cheqd/secret-box-service/compare/1.1.28...1.1.29) (2023-04-12)

@@ -15,16 +15,16 @@ jobs:
       url: https://secret-box-staging.cheqd.net/
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
       - name: Publish to Cloudflare
-        uses: cloudflare/wrangler-action@3.0.0
+        uses: cloudflare/wrangler-action@v3.3.2
         with:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}

@@ -39,7 +39,7 @@
     "@cosmjs/encoding": "^0.31.3",
     "@cosmjs/math": "^0.31.3",
     "@cosmjs/proto-signing": "^0.31.3",
-    "@cosmjs/stargate": "^0.31.3",
+    "@cosmjs/stargate": "^0.32.1",
     "@cosmjs/tendermint-rpc": "^0.31.3",
 	"cosmjs-types": "^0.8.0",
     "itty-router": "^4.0.23",
